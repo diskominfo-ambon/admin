@@ -7,6 +7,9 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\PlansController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AnnouncementsController;
+use App\Http\Controllers\Applications\FungsionalTaskController;
+use App\Http\Controllers\Applications\StructurOrganizationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,9 +40,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/pengguna', [UsersController::class, 'index'])->name('user.index');
     Route::get('/pengguna/tambah', [UsersController::class, 'create'])->name('user.new');
-    Route::post('/pengguna/tambah', [PlansController::class, 'store'])->name('user.store');
-    Route::get('/pengguna/ubah/{slug}', [PlansController::class, 'edit'])->name('user.edit');
-    Route::put('/pengguna/ubah/{slug}', [PlansController::class, 'update'])->name('user.update');
+    Route::post('/pengguna/tambah', [UsersController::class, 'store'])->name('user.store');
+    Route::get('/pengguna/ubah/{slug}', [UsersController::class, 'edit'])->name('user.edit');
+    Route::put('/pengguna/ubah/{slug}', [UsersController::class, 'update'])->name('user.update');
 
 
     Route::get('/penggumuman', [AnnouncementsController::class, 'index'])->name('anno.index');
@@ -47,6 +50,13 @@ Route::middleware('guest')->group(function () {
     Route::post('/penggumuman/tambah', [AnnouncementsController::class, 'store'])->name('anno.store');
     Route::get('/penggumuman/ubah/{slug}', [AnnouncementsController::class, 'edit'])->name('anno.edit');
     Route::put('/penggumuman/ubah/{slug}', [AnnouncementsController::class, 'update'])->name('anno.update');
+
+    Route::get('/tupoksi', [FungsionalTaskController::class, 'index'])->name('app.task');
+    Route::put('/tupoksi', [FungsionalTaskController::class, 'store'])->name('app.task.store');
+
+
+    Route::get('/struktur-organisasi', [StructurOrganizationController::class, 'index'])->name('app.organization');
+    Route::put('/struktur-organisasi', [StructurOrganizationController::class, 'store'])->name('app.organization.store');
 });
 
 // / -> dash
@@ -76,3 +86,7 @@ Route::middleware('guest')->group(function () {
 // /organisasi/tambah -> add organisasi
 // /organisasi/ubah/:slug -> ubah organisasi
 // /organisasi/del/:id -> hapus organisasi
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

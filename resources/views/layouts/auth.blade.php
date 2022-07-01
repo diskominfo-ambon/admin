@@ -16,30 +16,7 @@
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
-    <div class="nk-app-root">
-        <!-- main @s -->
-        <div class="nk-main ">
-            <x-sidebar />
-            <!-- wrap @s -->
-            <div class="nk-wrap ">
-                <x-header />
-                <!-- content @s -->
-                <div class="nk-content mt-4">
-                    <div class="container-fluid">
-                        <div class="nk-content-inner">
-                            <div class="nk-content-body">
-                                @yield('content')
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- content @e -->
-                <x-footer/>
-            </div>
-            <!-- wrap @e -->
-        </div>
-        <!-- main @e -->
-    </div>
+    @yield('content')
     <!-- app-root @e -->
     <!-- JavaScript -->
     <script src="{{ asset('/vendor/js/bundle.js?ver=2.2.0') }}"></script>

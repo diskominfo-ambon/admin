@@ -88,10 +88,10 @@
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
-                                <a href="" class="nk-menu-link"><span class="nk-menu-text">Tugas & Fungsional</span></a>
+                                <a href="{{ route('app.task') }}" class="nk-menu-link"><span class="nk-menu-text">Tugas & Fungsional</span></a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="" class="nk-menu-link"><span class="nk-menu-text">Struktur Organisasi</span></a>
+                                <a href="{{ route('app.organization') }}" class="nk-menu-link"><span class="nk-menu-text">Struktur Organisasi</span></a>
                             </li>
                             <li class="nk-menu-item">
                                 <a href="" class="nk-menu-link"><span class="nk-menu-text">Command Center</span></a>

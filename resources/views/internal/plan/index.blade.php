@@ -3,7 +3,7 @@
 @section('title', 'Dashboard agenda')
 
 @section('content')
-<x-content-head title="Agenda" desc="You have total 200 KYC documents." />
+<x-content-head title="Agenda" desc="Semua agenda Anda" />
 
 <div class="nk-block">
     <div class="card card-bordered card-stretch">
@@ -13,7 +13,7 @@
                     <div class="card-tools">
                         <div class="form-inline flex-nowrap gx-3">
                             <div class="form-wrap w-150px">
-                                <select class="form-select form-select-sm" data-search="off" data-placeholder="Bulk Action">
+                                <select class="form-select form-select-sm" data-search="off" data-placeholder="Status">
                                     <option value="">Status</option>
                                     <option value="email">Selesai</option>
                                     <option value="group">Aktif</option>
@@ -85,21 +85,35 @@
                     <div class="nk-tb-item nk-tb-head">
                         <div class="nk-tb-col tb-col-mb"><span>Judul</span></div>
                         <div class="nk-tb-col tb-col-md"><span>Status</span></div>
+                        <div class="nk-tb-col tb-col-lg"><span>Jadwal</span></div>
                         <div class="nk-tb-col tb-col-lg"><span>Ditambahkan pada</span></div>
                         <div class="nk-tb-col"><span>Pengguna</span></div>
                         <div class="nk-tb-col nk-tb-col-tools">&nbsp;</div>
                     </div><!-- .nk-tb-item -->
+                    @foreach ($plans as $plan)
                     <div class="nk-tb-item">
 
                         <div class="nk-tb-col">
-                            <a href="#" class="font-weight-bold">Halo</a>
+                            <a href="#" class="font-weight-bold">{{ $plan->title }}</a>
                         </div>
                         <div class="nk-tb-col tb-col-md">
-                            <span class="tb-status text-info">Pending</span>
+                            @if ($plan->active)
+                            <span class="tb-status text-info">Sedang aktif</span>
+                            @elseif($plan->inactive)
+                            <span class="tb-status text-danger">Ditangguhkan</span>
+                            @else
+                            <span class="tb-status text-success">Selesai</span>
+                            @endif
+
+                        </div>
+                        <div class="nk-tb-col tb-col-lg">
+                            <span class="tb-date">
+                                {{ $plan->started->locale('id_ID')->isoFormat('LL') }} - {{ $plan->ended->locale('id_ID')->isoFormat('LL') }}
+                            </span>
                         </div>
 
                         <div class="nk-tb-col tb-col-lg">
-                            <span class="tb-date">03 Jan, 2020 12:45 AM</span>
+                            <span class="tb-date">{{ $plan->created_at->locale('id_ID')->isoFormat('LLL') }}</span>
                         </div>
 
                         <div class="nk-tb-col">
@@ -108,16 +122,16 @@
                                     <em class="icon ni ni-user-fill"></em>
                                 </div>
                                 <div class="user-info">
-                                    <span class="tb-lead">Lonnie Ferguson <span class="dot dot-success d-md-none ml-1"></span></span>
-                                    <span>UD01120</span>
+                                    <span class="tb-lead">{{ Str::of($plan->user->name)->title() }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span>{{ $plan->user->name }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="nk-tb-col nk-tb-col-tools">
                             <ul class="nk-tb-actions gx-1">
                                 <li>
-                                    <a href="html/kyc-details-regular.html" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="View">
-                                        <em class="icon ni ni-eye-fill"></em>
+                                    <a href="{{ route('plan.edit', $plan) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="View">
+                                        <em class="icon ni ni-pen-fill"></em>
                                     </a>
                                 </li>
                                 <li>
@@ -133,9 +147,11 @@
                             </ul>
                         </div>
                     </div><!-- .nk-tb-item -->
+                    @endforeach
                 </div>
             </div><!-- .card-inner -->
-            <div class="card-inner">
+            {{ $plans->links() }}
+            {{-- <div class="card-inner">
                 <ul class="pagination justify-content-center justify-content-md-start">
                     <li class="page-item"><a class="page-link" href="#">Prev</a></li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -145,7 +161,7 @@
                     <li class="page-item"><a class="page-link" href="#">7</a></li>
                     <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul><!-- .pagination -->
-            </div><!-- .card-inner -->
+            </div><!-- .card-inner --> --}}
         </div><!-- .card-inner-group -->
     </div><!-- .card -->
 </div><!-- .nk-block -->

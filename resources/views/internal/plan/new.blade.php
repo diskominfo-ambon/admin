@@ -47,8 +47,9 @@
             <div class="card card-bordered">
                 <div class="card-inner">
                     <div name="content" class="tinymce-inline">
-                        {{ old('content') }}
+                        {!! old('content') !!}
                     </div>
+                    <textarea name="content" class="d-hide" id="editor">{{ old('content') }}</textarea>
                 </div>
             </div>
             <div class="nk-block-head">
@@ -69,7 +70,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" name="started" class="form-control date-picker" data-date-format="yyyy-mm-dd">
+                                    <input value="{{ old('started') }}" type="text" name="started" class="form-control date-picker" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +81,7 @@
                                     <div class="form-icon form-icon-left">
                                         <em class="icon ni ni-calendar"></em>
                                     </div>
-                                    <input type="text" name="ended" class="form-control date-picker" data-date-format="yyyy-mm-dd">
+                                    <input {{ old('ended') }} type="text" name="ended" class="form-control date-picker" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
                         </div>
@@ -98,5 +99,10 @@
 @section('script')
 <script src="{{ asset('/vendor/js/libs/editors/tinymce.js?ver=2.2.1') }}"></script>
 <script src="{{ asset('/vendor/js/editors.js?ver=2.2.0') }}"></script>
-
+<script>
+    $('.tinymce-inline').on('keyup', function () {
+        const content = $(this).html();
+        $('#editor').val(content);
+    });
+</script>
 @endsection

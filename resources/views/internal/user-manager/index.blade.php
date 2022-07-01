@@ -47,12 +47,12 @@
                 <div class="nk-tb-list nk-tb-ulist">
                     <div class="nk-tb-item nk-tb-head">
                         <div class="nk-tb-col tb-col-mb"><span>Nama pengguna</span></div>
-                        <div class="nk-tb-col tb-col-mb"><span>Jabatan</span></div>
                         <div class="nk-tb-col tb-col-md"><span>Akses</span></div>
                         <div class="nk-tb-col tb-col-md"><span>Status</span></div>
                         <div class="nk-tb-col tb-col-md"><span>Ditambahkan pada</span></div>
                         <div class="nk-tb-col nk-tb-col-tools">&nbsp;</div>
                     </div><!-- .nk-tb-item -->
+                    @foreach($users as $user)
                     <div class="nk-tb-item">
                         <div class="nk-tb-col">
                             <div class="user-card">
@@ -60,49 +60,56 @@
                                     <em class="icon ni ni-user-fill"></em>
                                 </div>
                                 <div class="user-info">
-                                    <span class="tb-lead">Lonnie Ferguson <span class="dot dot-success d-md-none ml-1"></span></span>
-                                    <span>UD01120</span>
+                                    <span class="tb-lead">{{ Str::of($user->name)->title()  }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span>{{ $user->email }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="nk-tb-col">
-                            <span>Halo</span>
+                            <span>Akses</span>
                         </div>
+
                         <div class="nk-tb-col tb-col-md">
-                            <span class="tb-status text-info">Pending</span>
-                        </div>
-                        <div class="nk-tb-col tb-col-md">
-                            <span class="tb-status text-info">Pending</span>
+                            @if ($user->acitve)
+                            <span class="tb-status text-info">Tersedia</span>
+                            @else
+                            <span class="tb-status text-danger">Ditangguhkan</span>
+                            @endif
                         </div>
 
                         <div class="nk-tb-col tb-col-lg">
-                            <span class="tb-date">03 Jan, 2020 12:45 AM</span>
+                            <span class="tb-date">{{ $user->created_at->locale('id_ID')->isoFormat('LLL') }}</span>
                         </div>
-
 
                         <div class="nk-tb-col nk-tb-col-tools">
                             <ul class="nk-tb-actions gx-1">
                                 <li>
-                                    <a href="html/kyc-details-regular.html" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="View">
-                                        <em class="icon ni ni-eye-fill"></em>
+                                    <a href="{{ route('user.edit', $user) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                        <em class="icon ni ni-pencil-fill-c"></em>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Tangguhkan">
-                                        <em class="icon ni ni-check-fill-c"></em>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Hapus">
-                                        <em class="icon ni ni-trash-fill"></em>
-                                    </a>
+                                    <form method="POST" action="">
+                                        @csrf
+                                        @method('POST')
+                                        <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <em class="icon ni ni-trash-fill"></em>
+                                        </a>
+                                    </form>
                                 </li>
                             </ul>
                         </div>
                     </div><!-- .nk-tb-item -->
+                    @endforeach
                 </div>
+                @if (count($users) <= 0)
+                <div class="text-center p-2">
+                    <p>Tidak ada data yang tersedia</p>
+                </div>
+                @endif
             </div><!-- .card-inner -->
-            <div class="card-inner">
+            {{ $users->links() }}
+            {{-- <div class="card-inner">
                 <ul class="pagination justify-content-center justify-content-md-start">
                     <li class="page-item"><a class="page-link" href="#">Prev</a></li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -112,7 +119,7 @@
                     <li class="page-item"><a class="page-link" href="#">7</a></li>
                     <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul><!-- .pagination -->
-            </div><!-- .card-inner -->
+            </div><!-- .card-inner --> --}}
         </div><!-- .card-inner-group -->
     </div><!-- .card -->
 </div><!-- .nk-block -->

@@ -32,13 +32,17 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-5">
+            <div class="mb-2">
                 <div class="form-control-wrap">
                     <div class="input-group input-group-lg">
                         <input type="file" name="pictureUrl" class="form-control" id="inputGroupFile02">
                         <label class="input-group-text" for="inputGroupFile02">Upload</label>
                     </div>
                 </div>
+            </div>
+
+            <div class="mb-5">
+                <img src="{{ asset('/storage/'.$post->pictureUrl) }}" alt="cover" class="img-thumbnail w-100">
             </div>
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
@@ -65,6 +69,7 @@
                     <div name="content" class="tinymce-inline">
                         {!! $post->content !!}
                     </div>
+                    <textarea name="content" class="d-hide" id="editor">{{ $post->content }}</textarea>
                 </div>
             </div>
             <div class="nk-block-head">
@@ -98,5 +103,10 @@
 @section('script')
 <script src="{{ asset('/vendor/js/libs/editors/tinymce.js?ver=2.2.1') }}"></script>
 <script src="{{ asset('/vendor/js/editors.js?ver=2.2.0') }}"></script>
-
+<script>
+    $('.tinymce-inline').on('keyup', function () {
+        const content = $(this).html();
+        $('#editor').val(content);
+    });
+</script>
 @endsection

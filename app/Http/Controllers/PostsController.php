@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostsController extends Controller
 {
@@ -21,29 +22,61 @@ class PostsController extends Controller
         return view('internal.post.new');
     }
 
-    public function store(PostRequest $request)
+    public function store(Request $request)
     {
-        $request->validated();
-        $post = $request->all();
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'status' => 'required',
+            'pictureUrl' => 'required|mimes:png,jpg|max:12000'
+        ]);
 
-        Post::create($post);
-
-        return redirect()->route('post.index')
-            ->with('flash', 'Berhasil menambahkan entry baru');
-    }
-
-
-    public function edit(Post $post)
-    {
-
-        return view('post.edit', compact('post'));
-    }
-
-
-    public function update(PostRequest $request, Post $post)
-    {
         $body = $request->all();
-        $post->update($body);
+
+        $file = $request->file('pictureUrl');
+        $path = $file->store('img/post', ['disk' => 'public']);
+
+        Post::create(array_merge($body, [
+            'slug' => Str::of($request->title)->slug(),
+            'pictureUrl' => $path
+        ]));
+
+        return redirect()->route('post.index')->with('flash', 'Berhasil menambahkan entry baru');
+    }
+
+
+    public function edit( int $id)
+    {
+
+        $post = Post::findOrFail($id);
+
+        return view('internal.post.edit', compact('post'));
+    }
+
+
+    public function update(PostRequest $request, int $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'status' => 'required',
+            'pictureUrl' => 'required|mimes:png,jpg|max:12000'
+        ]);
+
+        $body = $request->all();
+        $post = Post::findOrFail($id);
+
+        if ($request->hasFile('pictureUrl')) {
+            $file = $request->file('pictureUrl');
+            $path = $file->storePublicly('post');
+
+            $body['pictureUrl'] = $path;
+
+        }
+        $post->update(array_merge($body, [
+            'slug' => Str::of($request->title)->slug(),
+
+        ]));
 
         return redirect()->route('post.index')
             ->with('flash', 'Berhasil mengubah entry');

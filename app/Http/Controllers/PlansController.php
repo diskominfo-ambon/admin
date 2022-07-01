@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Plan;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Plan;
 
 class PlansController extends Controller
 {
     public function index()
     {
-        return view('internal.plan.index');
+        $plans = Plan::latest()->paginate(20);
+        return view('internal.plan.index', compact('plans'));
     }
 
     public function create()
@@ -20,27 +22,32 @@ class PlansController extends Controller
 
     public function store(Request $request)
     {
-        $request->validated();
-        $post = $request->all();
+        $body = $request->merge([
+            'slug' => Str::of($request->title)->slug(),
+        ]);
 
-        Plan::create($post);
+        Plan::create($body->all());
 
         return redirect()->route('plan.index')
             ->with('flash', 'Berhasil menambahkan entry baru');
     }
 
 
-    public function edit(Plan $post)
+    public function edit(int $id)
     {
+        $plan = Plan::findOrFail($id);
 
-        return view('plan.edit', compact('post'));
+        return view('internal.plan.edit', compact('plan'));
     }
 
 
-    public function update(Request $request, Plan $post)
+    public function update(Request $request, int $id)
     {
-        $body = $request->all();
-        $post->update($body);
+        $body = $request->merge([
+            'slug' => Str::of($request->title)->slug(),
+        ]);
+        $plan = Plan::findOrFail($id);
+        $plan->update($body->all());
 
         return redirect()->route('plan.index')
             ->with('flash', 'Berhasil mengubah entry');

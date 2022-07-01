@@ -13,9 +13,9 @@
     <div class="nk-block-head nk-block-head-lg wide-sm">
         <div class="nk-block-head-content">
             <div class="nk-block-head-sub"><a class="back-to" href="{{ route('post.index') }}"><em class="icon ni ni-arrow-left"></em><span>Pengguna</span></a></div>
-            <h3 class="nk-block-title fw-normal">Tambahkan pengguna</h3>
+            <h3 class="nk-block-title fw-normal">Ubah pengguna</h3>
             <div class="nk-block-des">
-                <p class="lead">Tambahkan pengguna baru Anda</p>
+                <p class="lead">Ubah pengguna {{ Str::of($user->name)->title() }}</p>
             </div>
         </div>
     </div><!-- .nk-block-head -->
@@ -33,19 +33,9 @@
                 </div>
             </div>
             <div class="mb-5">
-                <input name="name" value="{{ old('name') }}" type="text" class="form-control form-control-lg">
+                <input name="name" value="{{ $user->name }}" type="text" class="form-control form-control-lg">
             </div>
-            <div class="nk-block-head">
-                <div class="nk-block-head-content">
-                    <h6 class="title nk-block-title">Jabatan</h6>
-                    <div class="nk-block-des">
-                        <p>Masukan staff jabatan pengguna.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-5">
-                <input name="employee_type" value="{{ old('employee_type') }}" type="text" class="form-control form-control-lg">
-            </div>
+
 
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
@@ -56,18 +46,18 @@
                 </div>
             </div>
             <div class="mb-5">
-                <input name="email" value="{{ old('email') }}" type="text" class="form-control form-control-lg">
+                <input name="email" value="{{ $user->email }}" type="text" class="form-control form-control-lg">
             </div>
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
                     <h6 class="title nk-block-title">Kata sandi</h6>
                     <div class="nk-block-des">
-                        <p>Masukan kata sandi pengguna.</p>
+                        <p>Masukan kata sandi baru pengguna.</p>
                     </div>
                 </div>
             </div>
             <div class="mb-5">
-                <input name="password" value="{{ old('employee_type') }}" type="password" class="form-control form-control-lg">
+                <input name="password" value="" type="password" class="form-control form-control-lg">
             </div>
 
             <div class="nk-block-head">
@@ -90,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary mt-5">Tambahkan</button>
+            <button class="btn btn-primary mt-5">Simpan</button>
         </form>
 
     </div><!-- .nk-block -->

@@ -1,8 +1,12 @@
-/*!
- * Theme Name: Default
- * Package : DashLite
- * Author: Softnio
- * Author URI: http://themeforest.net/user/softnio
- * Version	 :	1.0.0
- * Updated	 :	07.23.2020
-**/
+.logo-img {
+    width: 120px;
+    filter: saturate(0);
+}
+
+.alert-box {
+    border-radius: 0;
+}
+
+.d-hide {
+    display: none;
+}

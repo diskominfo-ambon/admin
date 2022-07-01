@@ -44,6 +44,7 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
+                                    <
                                     <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                 </ul>
                             </div>
@@ -55,3 +56,9 @@
     </div><!-- .container-fliud -->
 </div>
 <!-- main header @e -->
+@if (session('flash'))
+<div class="alert alert-icon alert-primary alert-box" role="alert">
+    <em class="icon ni ni-alert-circle"></em>
+    {{ session('flash') }}
+</div>
+@endif

@@ -6,23 +6,23 @@
 @endsection
 
 
-@section('title', 'Tambahkan penggumuman')
+@section('title', 'Ubah penggumuman')
 
 @section('content')
 <div class="components-preview wide-md mx-auto">
     <div class="nk-block-head nk-block-head-lg wide-sm">
         <div class="nk-block-head-content">
             <div class="nk-block-head-sub"><a class="back-to" href="{{ route('anno.index') }}"><em class="icon ni ni-arrow-left"></em><span>Penggumuman</span></a></div>
-            <h3 class="nk-block-title fw-normal">Tambahkan Penggumuman</h3>
+            <h3 class="nk-block-title fw-normal">Ubah Penggumuman</h3>
             <div class="nk-block-des">
-                <p class="lead">Tambahkan penggumuman baru Anda</p>
+                <p class="lead">Ubah penggumuman Anda</p>
             </div>
         </div>
     </div><!-- .nk-block-head -->
     <div class="nk-block nk-block-lg">
-        <form method="POST" enctype="multipart/form-data" action="{{ route('anno.store') }}">
+        <form method="POST" enctype="multipart/form-data" action="{{ route('anno.update', $anno) }}">
             @csrf
-            @method('POST')
+            @method('PUT')
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
                     <h6 class="title nk-block-title">Judul penggumuman</h6>
@@ -34,6 +34,9 @@
             <div class="mb-5">
                 <input name="title" value="{{ $anno->title }}" type="text" class="form-control form-control-lg">
             </div>
+            @error('title')
+            <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+            @enderror
 
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
@@ -49,27 +52,38 @@
                         {!! $anno->content !!}
                     </div>
                 </div>
+                <textarea name="content" class="d-hide" id="editor">{!! $anno->content !!}</textarea>
             </div>
+            @error('content')
+            <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+            @enderror
+
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
-                    <h6 class="title nk-block-title">Status konten</h6>
+                    <h6 class="title nk-block-title">Unggah berkas</h6>
                     <div class="nk-block-des">
-                        <p>Pilih status konten Anda saat pertama kali dibuat</p>
+                        <p>Upload berkas untuk tambahan penggumuman Anda.</p>
                     </div>
                 </div>
             </div>
-            <div class="card card-bordered">
-                <div class="card-inner">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="inactive" {{ $anno->inactive && 'checked' }}name="status" value="0" class="custom-control-input">
-                        <label class="custom-control-label" for="inactive">Tangguhkan</label>
-                    </div>
-                    <div class="custom-control custom-radio ml-5">
-                        <input type="radio" id="active"{{ $anno->active && 'checked' }} name="status" value="1" class="custom-control-input">
-                        <label class="custom-control-label" for="active">Aktif</label>
+            <div class="mb-5">
+                <div class="form-control-wrap">
+                    <div class="input-group input-group-lg">
+                        <input type="file" name="pictureUrl" class="form-control" id="inputGroupFile02">
+                        <label class="input-group-text" for="inputGroupFile02">Upload</label>
                     </div>
                 </div>
             </div>
+            @error('attachment')
+            <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+            @enderror
+
+            <ul class="list-group mb-5">
+                <li class="list-group-item">
+                    <a href="{{ asset('/storage/'. $anno->attachmentUrl) }}">{{ $anno->attachment }}</a>
+                </li>
+            </ul>
+
             <button class="btn btn-primary mt-5">Simpan perubahan</button>
         </form>
 
@@ -81,5 +95,10 @@
 @section('script')
 <script src="{{ asset('/vendor/js/libs/editors/tinymce.js?ver=2.2.1') }}"></script>
 <script src="{{ asset('/vendor/js/editors.js?ver=2.2.0') }}"></script>
-
+<script>
+    $('.tinymce-inline').on('keyup', function () {
+        const content = $(this).html();
+        $('#editor').val(content);
+    });
+</script>
 @endsection

@@ -75,7 +75,7 @@
       tinymce.init({
         selector: _tinymce_inline,
         content_css: true,
-        skin: true,
+        skin: false,
         branding: false,
         menubar: false,
         inline: true,

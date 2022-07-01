@@ -12,7 +12,7 @@
 <div class="components-preview wide-md mx-auto">
     <div class="nk-block-head nk-block-head-lg wide-sm">
         <div class="nk-block-head-content">
-            <div class="nk-block-head-sub"><a class="back-to" href="{{ route('post.index') }}"><em class="icon ni ni-arrow-left"></em><span>Pengguna</span></a></div>
+            <div class="nk-block-head-sub"><a class="back-to" href="{{ route('user.index') }}"><em class="icon ni ni-arrow-left"></em><span>Pengguna</span></a></div>
             <h3 class="nk-block-title fw-normal">Tambahkan pengguna</h3>
             <div class="nk-block-des">
                 <p class="lead">Tambahkan pengguna baru Anda</p>
@@ -20,7 +20,7 @@
         </div>
     </div><!-- .nk-block-head -->
     <div class="nk-block nk-block-lg">
-        <form method="POST" enctype="multipart/form-data" action="{{ route('user.store') }}">
+        <form method="POST" action="{{ route('user.store') }}">
             @csrf
             @method('POST')
 
@@ -35,17 +35,7 @@
             <div class="mb-5">
                 <input name="name" value="{{ old('name') }}" type="text" class="form-control form-control-lg">
             </div>
-            <div class="nk-block-head">
-                <div class="nk-block-head-content">
-                    <h6 class="title nk-block-title">Jabatan</h6>
-                    <div class="nk-block-des">
-                        <p>Masukan staff jabatan pengguna.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-5">
-                <input name="employee_type" value="{{ old('employee_type') }}" type="text" class="form-control form-control-lg">
-            </div>
+
 
             <div class="nk-block-head">
                 <div class="nk-block-head-content">

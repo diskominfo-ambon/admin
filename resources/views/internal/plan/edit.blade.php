@@ -20,7 +20,7 @@
         </div>
     </div><!-- .nk-block-head -->
     <div class="nk-block nk-block-lg">
-        <form method="PUT" enctype="multipart/form-data" action="{{ route('plan.update', $plan) }}">
+        <form method="POST" enctype="multipart/form-data" action="{{ route('plan.update', $plan) }}">
             @csrf
             @method('PUT')
 
@@ -47,8 +47,9 @@
             <div class="card card-bordered">
                 <div class="card-inner">
                     <div name="content" class="tinymce-inline">
-                        {{ $plan->content }}
+                        {!! $plan->content !!}
                     </div>
+                    <textarea name="content" class="d-hide" id="editor">{{ $plan->content }}</textarea>
                 </div>
             </div>
 
@@ -63,15 +64,15 @@
             <div class="card card-bordered">
                 <div class="card-inner">
                     <div class="custom-control custom-radio">
-                        <input type="radio" {{ $plan->inactive && 'checked'  }}  id="inactive" name="status" value="0" class="custom-control-input">
+                        <input type="radio" {{ $plan->inactive ? 'checked' : '' }}  id="inactive" name="status" value="0" class="custom-control-input">
                         <label class="custom-control-label" for="inactive">Tangguhkan</label>
                     </div>
                     <div class="custom-control custom-radio ml-5">
-                        <input type="radio" {{ $plan->active && 'checked'  }} id="active" name="status" value="1" class="custom-control-input">
+                        <input type="radio" {{ $plan->active ? 'checked' : ''  }} id="active" name="status" value="1" class="custom-control-input">
                         <label class="custom-control-label" for="active">Aktif</label>
                     </div>
                     <div class="custom-control custom-radio ml-5">
-                        <input type="radio" {{ $plan->finish && 'checked'  }} id="finish" name="status" value="2" class="custom-control-input">
+                        <input type="radio" {{ $plan->finish ? 'checked' : ''  }} id="finish" name="status" value="2" class="custom-control-input">
                         <label class="custom-control-label" for="finish">Selesai</label>
                     </div>
                 </div>
@@ -113,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary mt-5">Tambahkan agenda</button>
+            <button class="btn btn-primary mt-5">Simpan perubahan</button>
         </form>
 
     </div><!-- .nk-block -->
@@ -124,5 +125,10 @@
 @section('script')
 <script src="{{ asset('/vendor/js/libs/editors/tinymce.js?ver=2.2.1') }}"></script>
 <script src="{{ asset('/vendor/js/editors.js?ver=2.2.0') }}"></script>
-
+<script>
+    $('.tinymce-inline').on('keyup', function () {
+        const content = $(this).html();
+        $('#editor').val(content);
+    });
+</script>
 @endsection

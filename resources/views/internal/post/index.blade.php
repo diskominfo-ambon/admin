@@ -92,14 +92,18 @@
                     @foreach($posts as $post)
                     <div class="nk-tb-item">
                         <div class="nk-tb-col">
-                            <a href="#" class="font-weight-bold">Halo</a>
+                            <a href="#" class="font-weight-bold">
+                                {{ Str::of($post->title) }}
+                            </a>
                         </div>
                         <div class="nk-tb-col tb-col-md">
                             <span class="tb-status text-info">Pending</span>
                         </div>
 
                         <div class="nk-tb-col tb-col-lg">
-                            <span class="tb-date">03 Jan, 2020 12:45 AM</span>
+                            <span class="tb-date">
+                                {{ $post->created_at->locale('id_ID')->isoFormat('LL') }}
+                            </span>
                         </div>
 
                         <div class="nk-tb-col">
@@ -108,21 +112,16 @@
                                     <em class="icon ni ni-user-fill"></em>
                                 </div>
                                 <div class="user-info">
-                                    <span class="tb-lead">Lonnie Ferguson <span class="dot dot-success d-md-none ml-1"></span></span>
-                                    <span>UD01120</span>
+                                    <span class="tb-lead">{{ Str::of($post->user->name)->title() }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                    <span>{{ $post->user->name }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="nk-tb-col nk-tb-col-tools">
                             <ul class="nk-tb-actions gx-1">
                                 <li>
-                                    <a href="html/kyc-details-regular.html" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="View">
-                                        <em class="icon ni ni-eye-fill"></em>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Tangguhkan">
-                                        <em class="icon ni ni-check-fill-c"></em>
+                                    <a href="{{ route('post.edit', $post) }}" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="View">
+                                        <em class="icon ni ni-pen-fill"></em>
                                     </a>
                                 </li>
                                 <li>

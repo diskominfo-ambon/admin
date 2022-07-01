@@ -39,7 +39,11 @@
                         <label class="input-group-text" for="inputGroupFile02">Upload</label>
                     </div>
                 </div>
+                @error('pictureUrl')
+                <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+                @enderror
             </div>
+
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
                     <h6 class="title nk-block-title">Judul kegiatan</h6>
@@ -50,6 +54,9 @@
             </div>
             <div class="mb-5">
                 <input name="title" value="{{ old('title') }}" type="text" class="form-control form-control-lg">
+                @error('title')
+                <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="nk-block-head">
@@ -63,10 +70,14 @@
             <div class="card card-bordered">
                 <div class="card-inner">
                     <div name="content" class="tinymce-inline">
-                        {{ old('content') }}
+                        {!! old('content') !!}
                     </div>
+                    <textarea name="content" class="d-hide" id="editor">{{ old('content') }}</textarea>
                 </div>
             </div>
+            @error('content')
+            <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+            @enderror
             <div class="nk-block-head">
                 <div class="nk-block-head-content">
                     <h6 class="title nk-block-title">Status konten</h6>
@@ -87,6 +98,9 @@
                     </div>
                 </div>
             </div>
+            @error('status')
+            <span class="d-block text-danger mb-3 mt-1">{{ $message }}</span>
+            @enderror
             <button class="btn btn-primary mt-5">Tambahkan</button>
         </form>
 
@@ -98,5 +112,10 @@
 @section('script')
 <script src="{{ asset('/vendor/js/libs/editors/tinymce.js?ver=2.2.1') }}"></script>
 <script src="{{ asset('/vendor/js/editors.js?ver=2.2.0') }}"></script>
-
+<script>
+    $('.tinymce-inline').on('keyup', function () {
+        const content = $(this).html();
+        $('#editor').val(content);
+    });
+</script>
 @endsection
